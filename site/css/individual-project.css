@@ -1,0 +1,333 @@
+/* Visualization Critique and Redesign - ORR station usage
+   Standalone stylesheet for the project site. */
+
+:root {
+    --ink: #1a1a2e;
+    --muted: #5a5f73;
+    --faint: #8a8fa3;
+    --grid: #e4e6ee;
+    --paper: #ffffff;
+    --card: #f7f8fc;
+    --accent: #1f4e79;
+    --accent-soft: #dce6f1;
+    --decline: #b04a4a;
+    --decline-soft: #f3e2e2;
+    --focus: #2f6fdb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #eceef4;
+    color: var(--ink);
+    font-family:
+        "Source Sans 3", "Segoe UI", -apple-system, BlinkMacSystemFont,
+        "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+.shell {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 28px 20px 48px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---------- header ---------- */
+
+.page-header {
+    padding: 8px 4px 18px;
+}
+
+.eyebrow {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.page-header h1 {
+    margin: 0 0 10px;
+    font-size: 34px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+}
+
+.lede {
+    margin: 0;
+    max-width: 46em;
+    font-size: 18px;
+    color: var(--muted);
+}
+
+/* ---------- cards and sections ---------- */
+
+.card {
+    background: var(--paper);
+    border: 1px solid var(--grid);
+    border-radius: 12px;
+    padding: 26px 28px 22px;
+    margin: 0 0 22px;
+}
+
+.section-label {
+    margin: 0 0 4px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+}
+
+.card h2 {
+    margin: 0 0 12px;
+    font-size: 22px;
+    line-height: 1.25;
+}
+
+.card p {
+    margin: 0 0 12px;
+    max-width: 72em;
+}
+
+a {
+    color: var(--accent);
+}
+
+a:hover {
+    text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 3px;
+}
+
+/* ---------- original figures ---------- */
+
+.original-figures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin: 16px 0;
+}
+
+.original-figures figure {
+    flex: 1 1 280px;
+    max-width: 480px;
+    margin: 0;
+}
+
+.original-figures img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--grid);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.original-figures figcaption,
+.chart-caption {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* ---------- controls ---------- */
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 28px;
+    margin: 16px 0 6px;
+    padding: 12px 14px;
+    background: var(--card);
+    border: 1px solid var(--grid);
+    border-radius: 10px;
+}
+
+.control-group {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.control-group legend {
+    float: left;
+    padding: 0 8px 0 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.control {
+    font: inherit;
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--grid);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+}
+
+.control[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ---------- chart ---------- */
+
+.chart-figure {
+    margin: 8px 0 0;
+}
+
+#chart {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#chart svg {
+    display: block;
+}
+
+.chart-status {
+    padding: 26px 16px;
+    text-align: center;
+    color: var(--muted);
+    background: var(--card);
+    border: 1px dashed var(--grid);
+    border-radius: 10px;
+}
+
+.chart-status.error {
+    color: var(--decline);
+    border-color: var(--decline);
+}
+
+.chart-status[hidden] {
+    display: none;
+}
+
+.footnotes {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.footnotes p {
+    margin: 4px 0;
+}
+
+.footnotes .note-ref {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* ---------- report ---------- */
+
+.report {
+    max-width: 72em;
+}
+
+.report h3 {
+    font-size: 17px;
+    margin: 18px 0 6px;
+}
+
+.report p {
+    margin: 0 0 10px;
+}
+
+.report ol,
+.report ul {
+    margin: 0 0 10px;
+    padding-left: 1.4em;
+}
+
+.report li {
+    margin-bottom: 4px;
+}
+
+.report .report-figures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 14px 0;
+}
+
+.report .report-figures figure {
+    flex: 1 1 260px;
+    max-width: 420px;
+    margin: 0;
+}
+
+.report .report-figures img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--grid);
+    border-radius: 8px;
+}
+
+/* ---------- references and footer ---------- */
+
+.references {
+    margin: 0;
+    padding-left: 1.4em;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.references li {
+    margin-bottom: 6px;
+}
+
+.page-footer {
+    text-align: center;
+    color: var(--faint);
+    font-size: 13px;
+}
+
+/* ---------- narrow screens ---------- */
+
+@media (max-width: 640px) {
+    .card {
+        padding: 20px 16px 18px;
+    }
+
+    .page-header h1 {
+        font-size: 27px;
+    }
+
+    .lede {
+        font-size: 16px;
+    }
+}

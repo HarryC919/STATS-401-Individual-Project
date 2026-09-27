@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="A critique and D3 redesign of the ORR railway station usage train-board visualization: East of England station usage, 2023-24 vs 2024-25."
+        />
+        <title>Visualization Critique and Redesign — ORR Station Usage</title>
+        <link rel="stylesheet" href="css/individual-project.css" />
+    </head>
+
+    <body>
+        <main class="shell">
+            <header class="page-header">
+                <p class="eyebrow">STATS 401 · Individual Project</p>
+                <h1>Visualization Critique and Redesign</h1>
+                <p class="lede">
+                    A critique of the Office of Rail and Road&rsquo;s animated
+                    &ldquo;train board&rdquo; of the most used railway stations
+                    in each region of Great Britain, and a D3 redesign that
+                    makes station usage and its year-to-year change comparable.
+                </p>
+            </header>
+
+            <section class="card" aria-labelledby="original-heading">
+                <p class="section-label">Part 1 · The original</p>
+                <h2 id="original-heading">
+                    The original: top-five station boards, one region at a time
+                </h2>
+                <p>
+                    Alongside its annual
+                    <a
+                        href="https://dataportal.orr.gov.uk/statistics/usage/estimates-of-station-usage/"
+                        >Estimates of station usage</a
+                    >
+                    release (April 2024 to March 2025, published 4 December
+                    2025), the Office of Rail and Road (ORR) publishes animated
+                    &ldquo;train departure boards&rdquo; showing the five most
+                    used stations in each region of Great Britain. Each board
+                    types out station names and their estimated entries and
+                    exits for roughly ten seconds before the next region
+                    replaces it. The figures are model-based estimates derived
+                    from ticket sales, not counts of individual passengers.
+                </p>
+                <figure class="original-figures">
+                    <figure>
+                        <img
+                            src="assets/original-animation-frame.png"
+                            alt="Frame from the ORR animation: a split-flap board titled East of England listing its five most used stations, over a colour-coded rail map."
+                            width="480"
+                            height="480"
+                        />
+                        <figcaption>
+                            The animated regional board (East of England, about
+                            2:09). Frame from
+                            <a
+                                href="https://dataportal.orr.gov.uk/media/brplcsfr/most-used-top-5-stations-in-each-region-train-board.mp4"
+                                >the ORR animation</a
+                            >, captured 23 September 2026. &copy; Office of Rail
+                            and Road, OGL v3.0.
+                        </figcaption>
+                    </figure>
+                    <figure>
+                        <img
+                            src="assets/original-static-figure.png"
+                            alt="Static ORR release figure 2.4: eleven small top-five boards arranged around a map of Great Britain."
+                            width="480"
+                            height="480"
+                        />
+                        <figcaption>
+                            Its static twin: Figure 2.4 of the
+                            <a
+                                href="https://dataportal.orr.gov.uk/media/msigcn24/station-usage-2024-25-statistical-release.pdf"
+                                >statistical release</a
+                            >
+                            (p. 8), &ldquo;The most used station in each region
+                            has remained the same&rdquo;. Captured 23 September
+                            2026.
+                        </figcaption>
+                    </figure>
+                </figure>
+                <p>
+                    The boards are honest about single-year levels but show
+                    nothing else: no previous year, no axes or bars, no
+                    declines &mdash; even though the release itself reports that
+                    only three regions kept an unchanged top five, and that
+                    usage at some stations fell. A full critique is in the
+                    report below.
+                </p>
+            </section>
+
+            <section class="card" aria-labelledby="data-heading">
+                <p class="section-label">Part 2 · The data</p>
+                <h2 id="data-heading">
+                    Data: East of England, 2023-24 vs 2024-25
+                </h2>
+                <p>
+                    The redesign zooms into the region the original compresses
+                    into ten seconds: <strong>East of England</strong>. It shows
+                    the 15 stations with the highest 2024-25 entries and exits
+                    (a set frozen once, then used in every view), comparing
+                    financial years April&ndash;March 2023-24 and 2024-25 from
+                    the same
+                    <a
+                        href="https://dataportal.orr.gov.uk/media/1908/table-1415-time-series-of-passenger-entries-and-exits-and-interchanges-by-station.ods"
+                        >ORR Table 1415 release</a
+                    >. Station selection favours currently busy stations, so the
+                    chart describes this selection &mdash; not the whole region
+                    and not a growth league. Where ORR documents a comparability
+                    caveat for a station, it is marked
+                    <span aria-hidden="true">*</span> and explained beneath the
+                    chart.
+                </p>
+            </section>
+
+            <section class="card" aria-labelledby="redesign-heading">
+                <p class="section-label">Part 3 · The redesign</p>
+                <h2 id="redesign-heading">
+                    Redesign: levels and change, side by side
+                </h2>
+                <p>
+                    Left: each station&rsquo;s two annual estimates as a
+                    dumbbell on a zero-based scale &mdash; the gap between the
+                    dots <em>is</em> the change. Right: that change on its own
+                    zero-referenced scale, in absolute or percentage terms.
+                    Increase or decrease is carried by position, sign, and
+                    colour together. Sort the rows by usage or by change; the
+                    station set stays fixed.
+                </p>
+
+                <div class="controls" role="group" aria-label="Chart controls">
+                    <fieldset class="control-group">
+                        <legend>Sort stations by</legend>
+                        <button
+                            type="button"
+                            id="sort-usage"
+                            class="control"
+                            aria-pressed="true"
+                        >
+                            2024-25 usage
+                        </button>
+                        <button
+                            type="button"
+                            id="sort-change"
+                            class="control"
+                            aria-pressed="false"
+                        >
+                            size of change
+                        </button>
+                    </fieldset>
+                    <fieldset class="control-group">
+                        <legend>Change panel shows</legend>
+                        <button
+                            type="button"
+                            id="metric-absolute"
+                            class="control"
+                            aria-pressed="true"
+                        >
+                            absolute change
+                        </button>
+                        <button
+                            type="button"
+                            id="metric-percent"
+                            class="control"
+                            aria-pressed="false"
+                        >
+                            percentage change
+                        </button>
+                    </fieldset>
+                </div>
+
+                <div
+                    id="chart-status"
+                    class="chart-status"
+                    role="status"
+                    aria-live="polite"
+                >
+                    Loading station usage data&hellip;
+                </div>
+                <figure class="chart-figure">
+                    <div id="chart"></div>
+                    <figcaption id="chart-caption" class="chart-caption">
+                        Estimated annual entries and exits, financial years
+                        (April&ndash;March), from ORR Table 1415 (Estimates of
+                        station usage, April 2024 to March 2025 release).
+                        Rounded display values; full-precision data in
+                        <a href="data/station-usage-comparison.csv">the CSV</a>.
+                    </figcaption>
+                </figure>
+                <div id="chart-footnotes" class="footnotes"></div>
+            </section>
+
+            <section class="card" aria-labelledby="report-heading">
+                <p class="section-label">Part 4 · The report</p>
+                <h2 id="report-heading">
+                    Critique and redesign report
+                </h2>
+                <div id="report-body" class="report">
+                    <p class="report-wordcount">
+                        Word count: 688 (report body; captions and references
+                        excluded).
+                    </p>
+
+                    <h3>Original visualization and context</h3>
+                    <p>
+                        The Office of Rail and Road (ORR) publishes annual
+                        <em>Estimates of station usage</em> &mdash; model-based
+                        estimates of entries and exits at every Great Britain
+                        station, derived from ticket sales for financial years
+                        (April&ndash;March). Alongside the April 2024 to March
+                        2025 release, ORR published an animated
+                        &ldquo;departure board&rdquo; showing the five most
+                        used stations in each of eleven regions, one board at a
+                        time, over a colour-coded map
+                        (<a
+                            href="https://dataportal.orr.gov.uk/media/brplcsfr/most-used-top-5-stations-in-each-region-train-board.mp4"
+                            >animation</a
+                        >;
+                        <a
+                            href="https://dataportal.orr.gov.uk/media/msigcn24/station-usage-2024-25-statistical-release.pdf"
+                            >release</a
+                        >). Its intended audience is the general public and
+                        media; its message is which stations lead each region;
+                        and its release narrative adds that the top five were
+                        unchanged in eight of eleven regions. The reading tasks
+                        it invites: name a region&rsquo;s leading stations,
+                        grasp their approximate size, and sense regional
+                        leaders at a glance.
+                    </p>
+
+                    <h3>Critique</h3>
+                    <p>
+                        <strong>Strengths.</strong> (1) The rail-departure-board
+                        metaphor is faithful and legible: full station names, a
+                        clear rank-1 emphasis, and consistent units make every
+                        board self-explanatory at social-media size. (2) The
+                        headline numbers are honest and consistent &mdash; the
+                        same 2024&ndash;25 figures appear on the boards, in the
+                        release&rsquo;s bar charts, and in ORR&rsquo;s
+                        dashboard.
+                    </p>
+                    <p>
+                        <strong>Weaknesses.</strong> (1) <em>Only one year is
+                        shown</em>, although change is the release&rsquo;s own
+                        headline: readers learn that eight of eleven top-five
+                        lists stayed the same, but nothing shows whether usage
+                        at those stations grew or shrank, or by how much. (2)
+                        <em>No visual channel encodes the values</em>: numbers
+                        appear only as typed text, so comparing sizes relies on
+                        reading and remembering digits, although position on a
+                        common scale is the most accurately decoded channel for
+                        magnitude. (3) <em>The sequential animation destroys
+                        comparison</em>: each board lives for roughly ten
+                        seconds and then vanishes; comparing regions means
+                        memorizing numbers, and at the end of the video no data
+                        remains on screen. A further, subtler problem is the
+                        <em>top-five cutoff</em>: a station can change
+                        dramatically yet disappear from the board (or stay on
+                        it while declining), so &ldquo;unchanged top five&rdquo;
+                        can mask real movement.
+                    </p>
+
+                    <h3>Redesign rationale</h3>
+                    <p>
+                        The redesign zooms into one region the original
+                        compresses into seconds &mdash; East of England &mdash;
+                        and shows the fifteen busiest stations (a set frozen by
+                        2024&ndash;25 usage), comparing 2023&ndash;24 with
+                        2024&ndash;25 from the same Table 1415 release.
+                    </p>
+                    <p>
+                        <strong>Decision 1 &mdash; a dumbbell chart for the two
+                        years.</strong> Each station becomes one row with a
+                        grey dot (2023&ndash;24) and a blue dot
+                        (2024&ndash;25) on a zero-based scale. The gap between
+                        the dots <em>is</em> the change, so direction and
+                        magnitude are readable in the same glance that reads
+                        the levels. This directly addresses the missing year
+                        and the missing magnitude channel; the trade-off is a
+                        less familiar form, softened by a legend and direct
+                        labels.
+                    </p>
+                    <p>
+                        <strong>Decision 2 &mdash; an aligned diverging change
+                        panel with an absolute&harr;percentage toggle.</strong>
+                        The change gets its own zero-referenced bars sharing
+                        the row order, in millions or per cent. The two views
+                        genuinely diverge: Stansted Airport leads in absolute
+                        terms (+0.81m) but ranks seventh by growth rate (eighth by absolute
+                        percentage-change magnitude), while
+                        Bedford (+15.9%) leads relatively &mdash; a distinction
+                        the original could never draw. Signs and colour encode
+                        direction redundantly, so nothing depends on hue alone.
+                    </p>
+                    <p>
+                        <strong>Decision 3 &mdash; a frozen selection with
+                        sorting instead of filtering.</strong> Fifteen stations
+                        stay fixed across every view; controls only re-sort.
+                        Boundary events therefore stay visible &mdash;
+                        Shenfield&rsquo;s fall from the regional top five
+                        (&minus;10.8%) happens on the page instead of being
+                        replaced by a silent roster change. The cost is
+                        selection bias toward currently busy stations, stated
+                        on the page.
+                    </p>
+                    <p>
+                        <strong>Decision 4 &mdash; estimate status and caveats
+                        on the page.</strong> Subtitles state that figures are
+                        estimated annual entries and exits in millions;
+                        stations with documented comparability caveats (for
+                        example Bedford&rsquo;s new 2024&ndash;25 ODM Counts alignment adjustment) carry
+                        footnotes rather than hover-only information.
+                    </p>
+
+                    <div class="report-figures">
+                        <figure>
+                            <img
+                                src="assets/original-animation-frame.png"
+                                alt="Original ORR train board for East of England, listing its five most used stations."
+                            />
+                            <figcaption>
+                                The original: East of England board in the ORR
+                                animation (&copy; ORR, OGL v3.0).
+                            </figcaption>
+                        </figure>
+                        <figure>
+                            <img
+                                src="assets/redesign-screenshot.png"
+                                alt="The redesigned D3 chart: dumbbell levels and diverging change bars for fifteen East of England stations."
+                            />
+                            <figcaption>
+                                The redesign: fifteen stations, two years, and
+                                the change between them, in one view.
+                            </figcaption>
+                        </figure>
+                    </div>
+
+                    <h3>Original vs redesign, trade-offs, and limitations</h3>
+                    <p>
+                        The redesign makes the original&rsquo;s blind spot
+                        &mdash; change &mdash; the centrepiece: Shenfield&rsquo;s
+                        decline is visible as a reversal rather than a roster
+                        swap, and level comparisons happen along common scales
+                        without animation-imposed memory burden. It is
+                        deliberately narrower: one region, fifteen busy
+                        stations, no map, and none of the video&rsquo;s
+                        entertainment value; results describe this selection,
+                        not the region or country&rsquo;s fastest-growing
+                        stations. Methodological uncertainty remains:
+                        ORR&rsquo;s estimates are model-based, and documented
+                        2024&ndash;25 methodology changes and station-specific
+                        adjustments mean year-to-year differences are changes
+                        in <em>estimated</em> usage, not measured passenger
+                        counts.
+                    </p>
+                </div>
+            </section>
+
+            <section class="card" aria-labelledby="references-heading">
+                <p class="section-label">References</p>
+                <h2 id="references-heading" class="visually-hidden">
+                    References
+                </h2>
+                <ul class="references">
+                    <li>
+                        Office of Rail and Road (4 December 2025).
+                        <em>Estimates of station usage, April 2024 to March
+                        2025</em> (statistical release).
+                        <a
+                            href="https://dataportal.orr.gov.uk/media/msigcn24/station-usage-2024-25-statistical-release.pdf"
+                            >dataportal.orr.gov.uk</a
+                        >
+                    </li>
+                    <li>
+                        Office of Rail and Road. Table 1415: Time series of
+                        passenger entries and exits and interchanges by station.
+                        <a
+                            href="https://dataportal.orr.gov.uk/media/1908/table-1415-time-series-of-passenger-entries-and-exits-and-interchanges-by-station.ods"
+                            >dataportal.orr.gov.uk</a
+                        >
+                        (used for both comparison years)
+                    </li>
+                    <li>
+                        Office of Rail and Road. Table 1410: Passenger entries,
+                        exits and interchanges by station, April 2024 to March
+                        2025.
+                        <a
+                            href="https://dataportal.orr.gov.uk/media/1909/table-1410-passenger-entries-and-exits-and-interchanges-by-station.csv"
+                            >dataportal.orr.gov.uk</a
+                        >
+                        (metadata and adjustment flags)
+                    </li>
+                    <li>
+                        Office of Rail and Road. Top 5 most used stations in
+                        each Region in Great Britain, April 2024 to March 2025
+                        (animation).
+                        <a
+                            href="https://dataportal.orr.gov.uk/media/brplcsfr/most-used-top-5-stations-in-each-region-train-board.mp4"
+                            >dataportal.orr.gov.uk</a
+                        >
+                    </li>
+                    <li>
+                        Office of Rail and Road.
+                        <em>Estimates of station usage: quality and methodology
+                        report</em> and <em>FAQs</em>.
+                        <a
+                            href="https://dataportal.orr.gov.uk/media/1917/station-usage-quality-and-methodology-report.pdf"
+                            >quality report</a
+                        >,
+                        <a href="https://dataportal.orr.gov.uk/media/1216/station-usage-faqs.pdf"
+                            >FAQs</a
+                        >
+                    </li>
+                    <li>
+                        Contains ORR material &copy; Crown copyright and database
+                        right 2025, licensed under the
+                        <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+                            >Open Government Licence v3.0</a
+                        >. Visualizations rebuilt for critique.
+                    </li>
+                </ul>
+            </section>
+
+            <footer class="page-footer">
+                <p>
+                    Built with D3 v7 · data served as a static CSV · source at
+                    <code>Individual_Project/</code>
+                </p>
+            </footer>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+        <script type="module" src="js/individual-project.js"></script>
+    </body>
+</html>

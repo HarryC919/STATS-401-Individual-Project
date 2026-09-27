@@ -1,0 +1,16 @@
+station_id,station_name,region,entries_exits_2023_24,entries_exits_2024_25,absolute_change,percent_change,quality_note
+7022,Cambridge,East of England,10033088.000000,10597572.000000,564484.000000,5.626224,
+6834,Stansted Airport,East of England,9280540.000000,10090904.000000,810364.000000,8.731863,
+6836,Chelmsford,East of England,6538092.000000,7030130.000000,492038.000000,7.525712,
+1402,Watford Junction,East of England,6474842.000000,6940122.000000,465280.000000,7.185967,
+1548,St Albans City,East of England,6318690.000000,6668998.000000,350308.000000,5.543997,
+6888,Shenfield,East of England,6518666.000000,5814886.000000,-703780.000000,-10.796381,EL adjustment (Elizabeth line contactless/PAYG correction) applies to both comparison years (Table 1410 flags 2023-24 and 2024-25).
+6133,Peterborough,East of England,4720686.000000,5299726.000000,579040.000000,12.266014,
+3645,Luton Airport Parkway,East of England,4344390.000000,4740742.000000,396352.000000,9.123306,
+6092,Stevenage,East of England,4271680.000000,4676446.000000,404766.000000,9.475569,
+7309,Norwich,East of England,4176640.000000,4556674.000000,380034.000000,9.099037,
+1512,Bedford,East of England,3247246.000000,3763978.000000,516732.000000,15.912931,Group-station allocation; new 2024-25 ODM Counts alignment adjustment. Table 1410 additional information: Marston Vale Line full timetable resumed February 2024 after 14 months partial service.
+1536,Luton,East of England,3646122.000000,3665966.000000,19844.000000,0.544249,
+6861,Colchester,East of England,3719094.000000,3648216.000000,-70878.000000,-1.905787,"Group-station allocation; split assumptions re-counted in 2024-25 (Table 1410: Group, Counts; Counts 2024-25), so the small change may partly reflect the updated split."
+7443,Grays,East of England,3495346.000000,3585722.000000,90376.000000,2.585610,EL adjustment (Elizabeth line contactless/PAYG correction) applies to both comparison years (Table 1410 flags 2023-24 and 2024-25).
+7217,Ipswich,East of England,3028054.000000,3371206.000000,343152.000000,11.332427,
